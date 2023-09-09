@@ -9,17 +9,21 @@ class TestShoe:
     '''Shoe in shoe.py'''
 
     def test_has_brand_and_size(self):
-        '''has the brand and size passed to __init__, and values can be set to new instance.'''
-        stan_smith = Shoe("Adidas", 9)
-        assert(stan_smith.brand == "Adidas")
-        assert(stan_smith.size == 9)
+        '''has the brand and size passed to __init__, and values can be set to a new instance.'''
+        stan_smith = Shoe("Adidas", 9, "White")  
+        assert stan_smith.brand == "Adidas"
+        assert stan_smith.size == 9
+        assert stan_smith.color == "White"
+
 
     def test_requires_int_size(self):
         '''prints "size must be an integer" if size is not an integer.'''
-        stan_smith = Shoe("Adidas", 9)
         captured_out = io.StringIO()
         sys.stdout = captured_out
-        stan_smith.size = "not an integer"
+
+        with pytest.raises(TypeError, match="size must be an integer"):
+            stan_smith = Shoe("Adidas", "9", "White") 
+        
         sys.stdout = sys.__stdout__
         assert captured_out.getvalue() == "size must be an integer\n"
 

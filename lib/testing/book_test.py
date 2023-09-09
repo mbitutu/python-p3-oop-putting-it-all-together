@@ -10,16 +10,21 @@ class TestBook:
 
     def test_has_title_and_page_count(self):
         '''has the title and page_count passed into __init__, and values can be set to new instance.'''
-        book = Book("And Then There Were None", 272)
-        assert(book.page_count == 272)
-        assert(book.title == "And Then There Were None")
+        book = Book("And Then There Were None", "Agatha Christie", 272)  # Provide title, author, and pages
+        assert book.title == "And Then There Were None"
+        assert book.author == "Agatha Christie"
+        assert book.pages == 272
 
-    def test_requires_int_page_count(self):
+
+    def test_requires_int_page_count():
         '''prints "page_count must be an integer" if page_count is not an integer.'''
-        book = Book("And Then There Were None", 272)
+        book = Book("And Then There Were None", "Agatha Christie", 272)
         captured_out = io.StringIO()
         sys.stdout = captured_out
-        book.page_count = "not an integer"
+        
+        with pytest.raises(TypeError, match="page_count must be an integer"):
+            book.pages = "not an integer"
+        
         sys.stdout = sys.__stdout__
         assert captured_out.getvalue() == "page_count must be an integer\n"
 
